@@ -1,6 +1,9 @@
+
+// TODO: In flask only read the csv and send the full dataframe to js for all logic like sort.
 window.onload = init;
 var map;
 var markerLocs = $('#long_lat').data();
+
 function init() {
     map = new ol.Map({
         target: 'map',
@@ -136,14 +139,72 @@ function init() {
         map.getViewport().style.cursor = 'inherit';
         }
     });
-
 }
 // recenter
 function recenter() {
     map.getView().animate({
+        // TODO: make the recenter based on average of all pins instead of hardcoded value
         center: [8110693.383080478, 2168049.1155551844],
         zoom: 10.4,
         duration: 1000
     })
 }
+$("#main-form").submit(function(e) {
+    console.log("Hi")
+    let user_address = document.getElementById("address-input").value
+    let filter_choice = document.getElementById("filter-choice-select").value
+    let energy_choice = document.getElementById("energy-choice-select")
 
+    alert(user_address);
+    alert(filter_choice);
+    alert(energy_choice);
+
+    
+    if (filter_choice == 3) {
+        energy_choice.style.display = "block";
+    } else {
+        energy_choice.style.display = "none";
+    }
+
+
+    function takeAddress() {
+        var platform = new H.service.Platform({
+            'apikey': 'dSAo8JzM9tpVoQLBnQn5PfCV5A3VvKOSLNOr6sEoV6w'
+        });
+
+        // Get an instance of the geocoding service:
+        var service = platform.getSearchService();
+
+        // Call the geocode method with the geocoding parameters,
+        // the callback and an error callback function (called if a
+        // communication error occurs):
+        usr_address = []
+        service.geocode({
+            q: user_address
+        }, (result) => {
+            // Add a marker for each location found
+            if (result.items.length < 2) {
+                alert(result.items[0].position)
+                return(result.items[0].position)
+            }
+            else {
+                console.log("Enter more specific address")
+                return("failed")
+            }
+        }, alert);
+    }
+    console.log(takeAddress());
+    x = false
+
+    if (!x) { // TODO: Add validation 
+        e.preventDefault();
+        // TODO: Show the error message on top
+    }
+    
+    
+});
+
+function on_submit() {
+    
+    
+}

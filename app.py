@@ -18,6 +18,9 @@ def index():
 
 
 @app.route("/try-it", methods = ["GET", "POST"])
+# @app.route("/try-it")
+# def try_it():
+    # return render_template("tryit.html")
 def try_it():
 
     global error
